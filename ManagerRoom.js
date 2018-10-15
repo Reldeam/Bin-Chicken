@@ -34,7 +34,8 @@ module.exports = class ManagerRoom extends Manager
             case 2:
             case 1:
             case 0:
-                if(containersNeeded(room)) room.memory.task = c.BUILD_CONTAINERS;
+                if(!canBuild(room)) room.memory.task = c.IDLE;
+                else if(containersNeeded(room)) room.memory.task = c.BUILD_CONTAINERS;
                 else if(roadsNeeded(room)) room.memory.task = c.BUILD_ROADS;
                 else room.memory.task = c.IDLE;
         }
@@ -45,6 +46,12 @@ module.exports = class ManagerRoom extends Manager
         this.scheduler.add(task);
     }
 };
+
+function canBuild(room) {
+    let sites = room.find(FIND_CONSTRUCTION_SITES);
+    let maxNewSites = c.MAX_CONSTRUCTION_SITES_PER_ROOM - sites.length;
+    return maxNewSites > 0;
+}
 
 function containersNeeded(room) {
     let sources = room.find(FIND_SOURCES);

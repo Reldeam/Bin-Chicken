@@ -27,7 +27,7 @@ module.exports = class ControllerRoom extends Controller
     buildContainers(room) {
         // Check how many new sites we can make.
         let sites = room.find(FIND_CONSTRUCTION_SITES);
-        let maxNewSites = c.MAX_CONSTRUCTION_SITES_PER_ROOM - sites;
+        let maxNewSites = c.MAX_CONSTRUCTION_SITES_PER_ROOM - sites.length;
         if(maxNewSites < 1) return;
 
         // Add a container next to the controller.
@@ -59,7 +59,7 @@ module.exports = class ControllerRoom extends Controller
     buildRoads(room) {
         // Check how many new sites we can make.
         let sites = room.find(FIND_CONSTRUCTION_SITES);
-        let maxNewSites = c.MAX_CONSTRUCTION_SITES_PER_ROOM - sites;
+        let maxNewSites = c.MAX_CONSTRUCTION_SITES_PER_ROOM - sites.length;
         if(maxNewSites < 1) return;
 
         // Flag to check if we added any new roads.
