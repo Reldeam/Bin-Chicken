@@ -50,7 +50,7 @@ module.exports = class ManagerTradie extends Manager
 
         if(containersNearSources) {
             tradie.memory.job = c.BUILD;
-            tradie.memory.jobTarget = containers[0].id;
+            tradie.memory.jobTarget = containersNearSources[0].id;
         }
         else if(containers) {
             tradie.memory.job = c.BUILD;
