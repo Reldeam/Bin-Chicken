@@ -55,9 +55,11 @@ module.exports = class Debug {
             for(key of Object.getOwnPropertyNames(Memory.debug)) {
                 Memory.debug[key] = true;
             }
+            return 'Debug: Turned on all keys.';
         }
         else {
             Memory.debug[key] = true;
+            return 'Debug: Turned on key: ' + key;
         }
 
     }
@@ -73,9 +75,11 @@ module.exports = class Debug {
             for(key of Object.getOwnPropertyNames(Memory.debug)) {
                 Memory.debug[key] = false;
             }
+            return 'Debug: Turned off all keys.';
         }
         else {
             Memory.debug[key] = false;
+            return 'Debug: Turned off key: ' + key;
         }
     }
 
@@ -83,8 +87,11 @@ module.exports = class Debug {
      * Print all the available keys.
      */
     static keys() {
+        let total = 0;
         for(let key of Object.getOwnPropertyNames(Memory.debug)) {
             console.log('-> ' + key + ' : ' + Memory.debug[key]);
+            total++;
         }
+        return total + ' keys in total.';
     }
 };
