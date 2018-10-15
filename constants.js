@@ -19,9 +19,9 @@ module.exports = {
     SPAWN_TRADIE : 'spawn tradie',
 
     CREEP_NAME_LENGTH : 6,
-    
-    MAX_SITES_PER_ROOM : 3,
-    MAX_SITES : 100,
+
+    MAX_CONSTRUCTION_SITES_PER_ROOM : 3,
+    MAX_CONSTRUCTION_SITES : 100,
 
     MAX_TRADIES_PER_ROOM : 3,
 
