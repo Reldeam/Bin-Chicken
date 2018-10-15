@@ -45,14 +45,14 @@ module.exports = class ManagerTradie extends Manager
         });
 
         let containersNearSources = _.remove(containers, (container) => {
-            container.pos.findInRange(FIND_SOURCES, 1);
+            return container.pos.findInRange(FIND_SOURCES, 1).length;
         });
 
-        if(containersNearSources) {
+        if(containersNearSources.length) {
             tradie.memory.job = c.BUILD;
             tradie.memory.jobTarget = containersNearSources[0].id;
         }
-        else if(containers) {
+        else if(containers.length) {
             tradie.memory.job = c.BUILD;
             tradie.memory.jobTarget = containers[0].id;
         }
