@@ -77,6 +77,30 @@ module.exports = class ManagerTradie extends Manager
     }
 
     requestTask(tradie) {
+
+        // Check if tradie needs to be renewed.
+        if(this.requiresRenew(tradie)) {
+
+            // Find closest spawn.
+            let spawn = tradie.pos.findClosestByPath(FIND_STRUCTURES, {
+               filter : {
+                   structureType : STRUCTURE_SPAWN,
+                   my : true
+               }
+            });
+
+            if(spawn) {
+                tradie.memory.taskTarget = spawn.id;
+                if(tradie.pos.isNearTo(spawn)) {
+                    tradie.memory.task = c.TASK_RENEW;
+                }
+                else {
+                    tradie.memory.task = c.TASK_MOVE;
+                }
+                return;
+            }
+        }
+
         let job = tradie.memory.job;
 
         switch(job) {
@@ -140,6 +164,23 @@ module.exports = class ManagerTradie extends Manager
                 return creep === tradie;
             });
         }
+    }
+
+    requiresRenew(tradie) {
+        // Find closest spawn.
+        let spawn = tradie.pos.findClosestByPath(FIND_STRUCTURES, {
+            filter : {
+                structureType : STRUCTURE_SPAWN,
+                my : true
+            }
+        });
+        if(!spawn) return false;
+
+        let path = tradie.pos.findPathTo(spawn);
+        if(!path) return false;
+
+        // TODO Set 2 to be a constant.
+        return(tradie.ticksToLive / 2 < path.length);
     }
 };
 

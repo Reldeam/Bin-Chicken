@@ -18,6 +18,8 @@ module.exports = class ManagerSpawn extends Manager
             case 'task':
                 this.requestTask(spawn);
                 break;
+            case 'renew':
+                this.requestRenew(spawn);
             case 'reschedule':
                 this.reschedule(spawn);
         }
@@ -29,6 +31,24 @@ module.exports = class ManagerSpawn extends Manager
             spawn.memory.task = c.SPAWN_TRADIE;
         }
         else spawn.memory.task = c.IDLE;
+    }
+
+    requestRenew(spawn) {
+        // Only renew if not doing anything else.
+        if(spawn.memory.task !== c.TASK_IDLE) {
+            return;
+        }
+
+        // Final all the creeps around the spawn that need renewing.
+        let creeps = spawn.findInRange(FIND_CREEPS, 1);
+        _.remove(creeps, function(creep) {
+            return(creep.memory.task === c.TASK_RENEW);
+        });
+
+        if(creeps.length > 0) {
+            spawn.memory.task = c.TASK_RENEW;
+            spawn.memory.taskTarget = creeps[0].name;
+        }
     }
 
     reschedule(spawn) {

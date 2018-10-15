@@ -11,6 +11,9 @@ module.exports = class ControllerSpawn extends Controller
             case c.SPAWN_TRADIE:
                 this.spawnTradie(spawn);
                 break;
+            case c.TASK_RENEW:
+                this.renewCreep(spawn);
+                break;
             case c.IDLE:
             default:
                 this.managers.spawn.request('task', spawn);
@@ -18,6 +21,22 @@ module.exports = class ControllerSpawn extends Controller
         }
 
         this.managers.spawn.request('reschedule', spawn);
+    }
+
+    renewCreep(spawn) {
+        let creep = Game.creeps[spawn.memory.taskTarget];
+        if(!creep) {
+            this.managers.spawn.request(c.REQUEST_TASK, spawn);
+            return;
+        }
+
+        switch(spawn.renew(creep)) {
+            case ERR_NOT_IN_RANGE:
+            case ERR_INVALID_TARGET:
+            case ERR_FULL:
+                this.managers.spawn.request(c.REQUEST_TASK, spawn);
+                break;
+        }
     }
 
     spawnTradie(spawn) {

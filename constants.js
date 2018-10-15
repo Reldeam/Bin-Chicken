@@ -36,6 +36,7 @@ module.exports = {
     REQUEST_TASK : 'task',
     REQUEST_RESCHEDULE : 'reschedule',
     REQUEST_REMOVE : 'remove',
+    REQUEST_RENEW : 'spawn',
 
     CREEP_NAME_LENGTH : 6,
 

@@ -20,21 +20,43 @@ module.exports = class ControllerTradie extends Controller
         }
 
         switch(tradie.memory.task) {
-            case c.MOVE:
+            case c.TASK_MOVE:
                 this.move(tradie);
                 break;
-            case c.HARVEST:
+            case c.TASK_HARVEST:
                 this.harvest(tradie);
                 break;
-            case c.BUILD:
+            case c.TASK_BUILD:
                 this.build(tradie);
                 break;
-            case c.IDLE:
+            case c.TASK_RENEW:
+                this.renew(tradie);
+                break;
+            case c.TASK_IDLE:
             default:
                 this.managers.tradie.request(c.REQUEST_TASK, tradie);
         }
 
         this.managers.tradie.request(c.REQUEST_RESCHEDULE, tradie);
+    }
+
+    renew(tradie) {
+        let spawn = Game.getObjectById(tradie.memory.target);
+
+        if(!spawn) {
+            this.managers.tradie.request(c.REQUEST_TASK, tradie);
+            return;
+        }
+
+        // TODO Set 0.9 to a constant in constants.js.
+        if(spawn.memory.task !== c.TASK_RENEW
+        && tradie.ticksToLive > 0.9 * CREEP_LIFE_TIME) {
+            this.managers.tradie.request(c.REQUEST_TASK, tradie);
+        }
+
+        if(spawn.memory.task === c.TASK_IDLE) {
+            this.managers.spawn.request(c.REQUEST_RENEW, spawn);
+        }
     }
 
     move(tradie) {
