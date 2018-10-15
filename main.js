@@ -6,6 +6,7 @@
  * a completely automatic agent that is capable of running over
  * 40 rooms on a non-subscriber account.
  */
+const debug = require('debug');
 
 const c = require('constants');
 const SchedularTask = require('SchedulerTask');
@@ -33,12 +34,18 @@ module.exports.loop = () => {
  */
 function init() {
 
+    debug.msg('Initialising Bin Chicken...');
+
+    debug.msg('Adding rooms:');
     for(let room of Object.getOwnPropertyNames(Game.rooms)) {
         scheduler.add(new SchedularTask(c.ROOM_CONTROLLER, room));
+        debug.msg('Added room, ' + room + '.');
     }
 
+    debug.msg('Adding spawns:');
     for(let spawn of Object.getOwnPropertyNames(Game.spawns)) {
         scheduler.add(new SchedularTask(c.SPAWN_CONTROLLER, spawn));
+        debug.msg('Added spawn, ' + spawn + '.');
     }
 
     scheduler.save();

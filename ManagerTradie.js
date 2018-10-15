@@ -5,7 +5,6 @@ const c = require('constants');
 module.exports = class ManagerTradie extends Manager 
 {
     request(type, tradie) {
-        console.log("request for: " + tradie.name);
         switch(type) {
             case 'job':
                 this.requestJob(tradie);
@@ -55,8 +54,6 @@ module.exports = class ManagerTradie extends Manager
         if(_.sum(tradie.carry) < tradie.carryCapacity) {
             let target = findEnergySupply(tradie);
 
-            console.log("energy target: " + target);
-
             if(!target) {
                 tradie.memory.task = c.IDLE;
                 return;
@@ -78,7 +75,6 @@ module.exports = class ManagerTradie extends Manager
     }
 
     reschedule(tradie) {
-        console.log("Rescheduling tradie: " + tradie.name);
         let task = new SchedulerTask(c.TRADIE_CONTROLLER, tradie.name);
         this.scheduler.add(task);
     }
@@ -86,9 +82,6 @@ module.exports = class ManagerTradie extends Manager
 
 function findEnergySupply(tradie) {
     let source = tradie.pos.findClosestByPath(FIND_SOURCES);
-
-    console.log("Found sources: ");
-    console.log(source);
 
     if(!source) return null;
 
