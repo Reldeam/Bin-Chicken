@@ -1,4 +1,4 @@
-if(!Game.memory.debug) Game.memory.debug = {
+if(!Memory.debug) Memory.debug = {
     global : true
 };
 
@@ -22,19 +22,19 @@ if(!Game.memory.debug) Game.memory.debug = {
 module.exports = class Debug {
 
     static message(message, key = 'global') {
-        if(Game.memory.debug[key]) {
+        if(Memory.debug[key]) {
             console.log('[MSG][' + key + ']: ' + message);
         }
     }
 
     static warning(warning, key = 'global') {
-        if(Game.memory.debug[key]) {
+        if(Memory.debug[key]) {
             console.warn('[WRN][' + key + ']: ' + warning);
         }
     }
 
     static error(error, key = 'global') {
-        if(Game.memory.debug[key]) {
+        if(Memory.debug[key]) {
             console.error('[ERR][' + key + ']: ' + error);
         }
     }
@@ -52,12 +52,12 @@ module.exports = class Debug {
     static on(key) {
 
         if(key === undefined) {
-            for(key of Object.getOwnPropertyNames(Game.memory.debug)) {
-                Game.memory.debug[key] = true;
+            for(key of Object.getOwnPropertyNames(Memory.debug)) {
+                Memory.debug[key] = true;
             }
         }
         else {
-            Game.memory.debug[key] = true;
+            Memory.debug[key] = true;
         }
 
     }
@@ -70,12 +70,12 @@ module.exports = class Debug {
      */
     static off(key) {
         if(key === undefined) {
-            for(key of Object.getOwnPropertyNames(Game.memory.debug)) {
-                Game.memory.debug[key] = false;
+            for(key of Object.getOwnPropertyNames(Memory.debug)) {
+                Memory.debug[key] = false;
             }
         }
         else {
-            Game.memory.debug[key] = false;
+            Memory.debug[key] = false;
         }
     }
 
@@ -83,8 +83,8 @@ module.exports = class Debug {
      * Print all the available keys.
      */
     static keys() {
-        for(let key of Object.getOwnPropertyNames(Game.memory.debug)) {
-            console.log('-> ' + key + ' : ' + Game.memory.debug[key]);
+        for(let key of Object.getOwnPropertyNames(Memory.debug)) {
+            console.log('-> ' + key + ' : ' + Memory.debug[key]);
         }
     }
 };
