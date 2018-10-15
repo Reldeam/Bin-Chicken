@@ -3,6 +3,19 @@ const SchedulerTask = require('SchedulerTask');
 
 const c = require('constants');
 
+/**
+ * Manages rooms by designating which tasks to do. Rooms can
+ * only place construction sites and so each task is which
+ * type of structure to place a construction site for.
+ *
+ * @type {module.ManagerRoom}
+ *
+ * Memory
+ *
+ * - tradies (Array) Tradies that are based in the room.
+ * - roadsComplete (Boolean) Whether all the roads have been
+ *   placed or not.
+ */
 module.exports = class ManagerRoom extends Manager
 {
     request(type, room) {
@@ -47,6 +60,14 @@ module.exports = class ManagerRoom extends Manager
     }
 };
 
+/**
+ * Checks whether it possible to place another construction
+ * site in the room. Doesn't say whether another site should
+ * be placed though, just that one is allowed to be placed.
+ *
+ * @param room
+ * @returns {boolean}
+ */
 function canBuild(room) {
     let sites = room.find(FIND_CONSTRUCTION_SITES);
     let maxNewSites = c.MAX_CONSTRUCTION_SITES_PER_ROOM - sites.length;

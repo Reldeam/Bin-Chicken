@@ -38,7 +38,7 @@ module.exports = class ControllerTradie extends Controller
     }
 
     move(tradie) {
-        let target = Game.getObjectById(tradie.memory.target);
+        let target = Game.getObjectById(tradie.memory.taskTarget);
 
         if(!target) {
             this.managers.tradie.request(c.REQUEST_JOB, tradie);
@@ -60,7 +60,7 @@ module.exports = class ControllerTradie extends Controller
             return;
         }
 
-        let target = Game.getObjectById(tradie.memory.target);
+        let target = Game.getObjectById(tradie.memory.taskTarget);
 
         if(!target) {
             this.managers.tradie.request(c.REQUEST_TASK, tradie);
@@ -74,7 +74,7 @@ module.exports = class ControllerTradie extends Controller
     }
 
     build(tradie) {
-        let target = Game.getObjectById(tradie.memory.target);
+        let target = Game.getObjectById(tradie.memory.taskTarget);
 
         // Check if target exists.
         if(!target) {

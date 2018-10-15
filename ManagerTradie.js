@@ -2,6 +2,22 @@ const Manager = require('Manager');
 const SchedulerTask = require('SchedulerTask');
 const c = require('constants');
 
+/**
+ *
+ * @type {module.ManagerTradie}
+ *
+ * Memory
+ *
+ * - job (String) Which job the tradie is currently doing.
+ * - task (String) Which task the tradie is currently doing.
+ * - jobTarget (String) The target of the job, i.e. if the
+ *   job is to build then then jobTarget will be the
+ *   construction site id that the creep is building.
+ * - taskTarget (String) The target of the task, i.e. if the
+ *   job is to build but the tradie is currently getting
+ *   energy then the target may be a container or source id.
+ *
+ */
 module.exports = class ManagerTradie extends Manager 
 {
     request(type, tradie) {
@@ -90,7 +106,7 @@ module.exports = class ManagerTradie extends Manager
                 return;
             }
 
-            tradie.memory.target = target.id;
+            tradie.memory.taskTarget = target.id;
 
             if(tradie.pos.isNearTo(target)) tradie.memory.task = c.HARVEST;
             else tradie.memory.task = c.MOVE;
@@ -99,13 +115,13 @@ module.exports = class ManagerTradie extends Manager
         // Check if tradie is next to the construction site.
         else if(tradie.pos.isNearTo(buildTarget)) {
             tradie.memory.task = c.BUILD;
-            tradie.memory.target = buildTarget.id;
+            tradie.memory.taskTarget = buildTarget.id;
         }
 
         // Move tradie to the construction site.
         else {
             tradie.memory.task = c.MOVE;
-            tradie.memory.target = buildTarget.id;
+            tradie.memory.taskTarget = buildTarget.id;
         }
     }
 
