@@ -44,7 +44,15 @@ module.exports = class ManagerTradie extends Manager
             filter : {structureType : STRUCTURE_CONTAINER}
         });
 
-        if(containers) {
+        let containersNearSources = _.remove(containers, (container) => {
+            container.pos.findInRange(FIND_SOURCES, 1);
+        });
+
+        if(containersNearSources) {
+            tradie.memory.job = c.BUILD;
+            tradie.memory.jobTarget = containers[0].id;
+        }
+        else if(containers) {
             tradie.memory.job = c.BUILD;
             tradie.memory.jobTarget = containers[0].id;
         }
@@ -112,7 +120,7 @@ module.exports = class ManagerTradie extends Manager
         // Remove all tradie from room memory.
         // TODO Work out a way to make this way cleaner...
         for(let room of Game.rooms) {
-            room.memory.tradies = _.remove(room.memory.tradies, (creep) => {
+            _.remove(room.memory.tradies, (creep) => {
                 return creep === tradie;
             });
         }
