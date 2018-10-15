@@ -7,6 +7,13 @@ module.exports = class ControllerTradie extends Controller
     run(tradieName) {
         let tradie = Game.creeps[tradieName];
 
+        // Tradie doesn't exists (probably died).
+        if(!tradie) {
+            this.managers.tradie.request(c.REQUEST_REMOVE, tradieName);
+            return;
+        }
+
+        // Tradie is still spawning.
         if(tradie.spawning) {
             this.managers.tradie.request(c.REQUEST_RESCHEDULE, tradie);
             return;

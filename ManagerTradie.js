@@ -6,14 +6,17 @@ module.exports = class ManagerTradie extends Manager
 {
     request(type, tradie) {
         switch(type) {
-            case 'job':
+            case c.REQUEST_JOB:
                 this.requestJob(tradie);
                 break;
-            case 'task':
+            case c.REQUEST_TASK:
                 this.requestTask(tradie);
                 break;
-            case 'reschedule':
+            case c.REQUEST_RESCHEDULE:
                 this.reschedule(tradie);
+                break;
+            case c.REQUEST_REMOVE:
+                this.remove(tradie);
                 break;
         }
     }
@@ -101,6 +104,18 @@ module.exports = class ManagerTradie extends Manager
     reschedule(tradie) {
         let task = new SchedulerTask(c.TRADIE_CONTROLLER, tradie.name);
         this.scheduler.add(task);
+    }
+
+    remove(tradie) {
+        delete Memory.creeps[tradie];
+
+        // Remove all tradie from room memory.
+        // TODO Work out a way to make this way cleaner...
+        for(let room of Game.rooms) {
+            room.memory.tradies = _.remove(room.memory.tradies, (creep) => {
+                return creep === tradie;
+            });
+        }
     }
 };
 
