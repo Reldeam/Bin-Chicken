@@ -1,0 +1,5 @@
+.idea/
+node_modules/
+ScreepsAutoComplete/
+package.json
+package-lock.json
