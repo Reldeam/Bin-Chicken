@@ -1,6 +1,8 @@
 const PriorityQueue = require('PriorityQueue');
 const SchedulerTask = require('SchedulerTask');
+
 const debug = require('debug');
+debug.addKey('scheduler');
 
 const c = require('constants');
 const controllers = require('controllers');

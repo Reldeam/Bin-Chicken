@@ -15,4 +15,6 @@ module.exports = class Manager
     }
 
     request(type, entity) {};
+
+    update(type, event) {};
 };

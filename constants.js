@@ -18,6 +18,25 @@ module.exports = {
     RENEW : 'renew',
     SPAWN_TRADIE : 'spawn tradie',
 
+    JOB_BUILD: 'build',
+
+    TASK_BUILD: 'build',
+    TASK_BUILD_CONTAINERS : 'build containers',
+    TASK_BUILD_ROADS : 'build roads',
+    TASK_HARVEST : 'harvest',
+    TASK_IDLE : 'idle',
+    TASK_MOVE: 'move',
+    TASK_RECYCLE : 'recycle',
+    TASK_RENEW : 'renew',
+    TASK_SPAWN_TRADIE : 'spawn tradie',
+
+    UPDATE_BUILD_COMPLETE : 'build complete',
+
+    REQUEST_JOB: 'job',
+    REQUEST_TASK : 'task',
+    REQUEST_RESCHEDULE : 'reschedule',
+    REQUEST_REMOVE : 'remove',
+
     CREEP_NAME_LENGTH : 6,
 
     MAX_CONSTRUCTION_SITES_PER_ROOM : 3,

@@ -50,18 +50,16 @@ module.exports = class Debug {
      * @param key Key to turn on.
      */
     static on(key) {
-
         if(key === undefined) {
             for(key of Object.getOwnPropertyNames(Memory.debug)) {
                 Memory.debug[key] = true;
             }
-            return 'Debug: Turned on all keys.';
+            return 'Turned ON all keys.';
         }
         else {
             Memory.debug[key] = true;
-            return 'Debug: Turned on key: ' + key;
+            return 'Turned ON key, ' + key;
         }
-
     }
 
     /**
@@ -75,11 +73,11 @@ module.exports = class Debug {
             for(key of Object.getOwnPropertyNames(Memory.debug)) {
                 Memory.debug[key] = false;
             }
-            return 'Debug: Turned off all keys.';
+            return 'Turned OFF all keys.';
         }
         else {
             Memory.debug[key] = false;
-            return 'Debug: Turned off key: ' + key;
+            return 'Turned OFF key, ' + key;
         }
     }
 
@@ -89,9 +87,21 @@ module.exports = class Debug {
     static keys() {
         let total = 0;
         for(let key of Object.getOwnPropertyNames(Memory.debug)) {
-            console.log('-> ' + key + ' : ' + Memory.debug[key]);
+            if(Memory.debug[key]) console.log('-> ' + key + ' : ON');
+            else console.log('-> ' + key + ' : OFF');
             total++;
         }
         return total + ' keys in total.';
+    }
+
+    /**
+     * Add a new key to debug.
+     */
+    static addKey(key) {
+        if(!Memory.debug[key]) {
+            Memory.debug[key] = false;
+            return 'Added key: ' + key;
+        }
+        return 'Key already exists.';
     }
 };

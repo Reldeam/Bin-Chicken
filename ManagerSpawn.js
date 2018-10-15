@@ -3,6 +3,14 @@ const SchedulerTask = require('SchedulerTask');
 
 const c = require('constants');
 
+/**
+ *
+ * @type {module.ManagerSpawn}
+ *
+ * Memory
+ *
+ * - task (String) Current task.
+ */
 module.exports = class ManagerSpawn extends Manager
 {
     request(type, spawn) {
