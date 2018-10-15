@@ -18,6 +18,24 @@ module.exports = class ManagerTradie extends Manager
         }
     }
 
+    update(type, event) {
+        switch(type) {
+            case c.UPDATE_BUILD_COMPLETE:
+                let site = Game.getObjectById(event.target);
+                let room = site.room;
+
+                let tradie;
+
+                for(let name in room.memory.tradies) {
+                    tradie = Game.creeps[name];
+                    if(tradie.memory.jobTarget === event.target) {
+                        this.requestJob(tradie);
+                    }
+                }
+                break;
+        }
+    }
+
     requestJob(tradie) {
         let containers = tradie.room.find(FIND_CONSTRUCTION_SITES, {
             filter : {structureType : STRUCTURE_CONTAINER}
@@ -46,11 +64,13 @@ module.exports = class ManagerTradie extends Manager
     nextBuildTask(tradie) {
         let buildTarget = Game.getObjectById(tradie.memory.jobTarget);
 
+        // Check if target exists.
         if(!buildTarget) {
             this.requestJob(tradie);
             return;
         }
 
+        // Check if tradie needs to get resources.
         if(_.sum(tradie.carry) < tradie.carryCapacity) {
             let target = findEnergySupply(tradie);
 
@@ -64,10 +84,14 @@ module.exports = class ManagerTradie extends Manager
             if(tradie.pos.isNearTo(target)) tradie.memory.task = c.HARVEST;
             else tradie.memory.task = c.MOVE;
         }
+
+        // Check if tradie is next to the construction site.
         else if(tradie.pos.isNearTo(buildTarget)) {
             tradie.memory.task = c.BUILD;
             tradie.memory.target = buildTarget.id;
         }
+
+        // Move tradie to the construction site.
         else {
             tradie.memory.task = c.MOVE;
             tradie.memory.target = buildTarget.id;
