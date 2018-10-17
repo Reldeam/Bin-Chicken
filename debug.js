@@ -45,7 +45,7 @@ module.exports = class Debug {
         }
 
         if(Memory.debug[key]) {
-            console.warn('[WRN][' + key + ']: ' + warning);
+            console.error('[WRN][' + key + ']: ' + warning);
         }
     }
 
