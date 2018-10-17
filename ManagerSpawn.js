@@ -44,7 +44,7 @@ module.exports = class ManagerSpawn extends Manager
 
     requestRenew(spawn) {
         // Only renew if not doing anything else.
-        if(spawn.memory.task !== c.TASK_IDLE) {
+        if(spawn.spawning) {
             return;
         }
 
