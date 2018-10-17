@@ -1,27 +1,36 @@
 const Controller = require('Controller');
-
 const c = require('constants');
+
+const debug = require('debug');
+const debugKey = 'CTR Room';
+debug.addKey(debugKey);
 
 module.exports = class ControllerRoom extends Controller
 {
     run(roomName) {
+        debug.setKey(debugKey);
+        debug.msg('Running room controller for, ' + roomName + '...');
         let room = Game.rooms[roomName];
 
         switch(room.memory.task) {
             case c.BUILD_CONTAINERS:
+                debug.msg('Building containers.');
                 this.buildContainers(room);
                 this.managers.room.request('task', room);
                 break;
             case c.BUILD_ROADS:
+                debug.msg('Building roads.');
                 this.buildRoads(room);
                 this.managers.room.request('task', room);
                 break;
             case c.IDLE:
             default:
+                debug.msg('Idling.');
                 this.managers.room.request('task', room);
         }
 
         this.managers.room.request('reschedule', room);
+        debug.unsetKey();
     }
 
     buildContainers(room) {

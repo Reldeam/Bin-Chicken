@@ -167,6 +167,7 @@ module.exports = class ManagerTradie extends Manager
     }
 
     requiresRenew(tradie) {
+        /*
         // Find closest spawn.
         let spawn = tradie.pos.findClosestByPath(FIND_STRUCTURES, {
             filter : {
@@ -178,9 +179,9 @@ module.exports = class ManagerTradie extends Manager
 
         let path = tradie.pos.findPathTo(spawn);
         if(!path) return false;
+        */
 
-        // TODO Set 2 to be a constant.
-        return(tradie.ticksToLive / 2 < path.length);
+        return(tradie.ticksToLive < 1400);
     }
 };
 

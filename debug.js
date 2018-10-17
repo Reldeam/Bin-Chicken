@@ -21,19 +21,43 @@ if(!Memory.debug) Memory.debug = {
  */
 module.exports = class Debug {
 
-    static message(message, key = 'global') {
+    static message(message, key) {
+
+        if(!key && Memory.debug.currentKey) {
+            key = Memory.debug.currentKey;
+        }
+        else {
+            key = 'global';
+        }
+
         if(Memory.debug[key]) {
             console.log('[MSG][' + key + ']: ' + message);
         }
     }
 
-    static warning(warning, key = 'global') {
+    static warning(warning, key) {
+
+        if(!key && Memory.debug.currentKey) {
+            key = Memory.debug.currentKey;
+        }
+        else {
+            key = 'global';
+        }
+
         if(Memory.debug[key]) {
             console.warn('[WRN][' + key + ']: ' + warning);
         }
     }
 
-    static error(error, key = 'global') {
+    static error(error, key) {
+
+        if(!key && Memory.debug.currentKey) {
+            key = Memory.debug.currentKey;
+        }
+        else {
+            key = 'global';
+        }
+
         if(Memory.debug[key]) {
             console.error('[ERR][' + key + ']: ' + error);
         }
@@ -105,5 +129,14 @@ module.exports = class Debug {
             return 'Added key: ' + key;
         }
         return 'Key already exists.';
+    }
+
+    static setKey(key) {
+        if(!Memory.debug[key]) this.addKey(key);
+        Memory.debug.currentKey = key;
+    }
+
+    static unsetKey() {
+        Memory.debug.currentKey = null;
     }
 };

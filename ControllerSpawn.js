@@ -1,26 +1,35 @@
 const Controller = require('Controller');
-
 const c = require('constants');
+
+const debug = require('debug');
+const debugKey = 'CTR Spawn';
+debug.addKey(debugKey);
 
 module.exports = class ControllerSpawn extends Controller
 {
     run(spawnName) {
+        debug.setKey(debugKey);
+        debug.msg('Running spawn controller for, ' + spawnName + '...');
         let spawn = Game.spawns[spawnName];
 
         switch(spawn.memory.task) {
             case c.SPAWN_TRADIE:
+                debug.msg('Spawning a tradie.');
                 this.spawnTradie(spawn);
                 break;
             case c.TASK_RENEW:
+                debug.msg('Renewing a creep.');
                 this.renewCreep(spawn);
                 break;
             case c.IDLE:
             default:
+                debug.msg('Idling.');
                 this.managers.spawn.request('task', spawn);
                 break;
         }
 
         this.managers.spawn.request('reschedule', spawn);
+        debug.unsetKey();
     }
 
     renewCreep(spawn) {

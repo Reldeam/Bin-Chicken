@@ -3,6 +3,10 @@ const SchedulerTask = require('SchedulerTask');
 
 const c = require('constants');
 
+const debug = require('debug');
+const debugKey = 'MNGR Room';
+debug.addKey(debugKey);
+
 /**
  *
  * @type {module.ManagerSpawn}
@@ -14,13 +18,18 @@ const c = require('constants');
 module.exports = class ManagerSpawn extends Manager
 {
     request(type, spawn) {
+        debug.setKey(debugKey);
+
         switch(type) {
             case 'task':
+                debug.msg('Requesting task for ' + spawn);
                 this.requestTask(spawn);
                 break;
             case 'renew':
+                debug.msg('Requesting renew for ' + spawn);
                 this.requestRenew(spawn);
             case 'reschedule':
+                debug.msg('Requesting reschedule for ' + spawn);
                 this.reschedule(spawn);
         }
     }
@@ -42,7 +51,7 @@ module.exports = class ManagerSpawn extends Manager
         // Final all the creeps around the spawn that need renewing.
         let creeps = spawn.findInRange(FIND_CREEPS, 1);
         _.remove(creeps, function(creep) {
-            return(creep.memory.task === c.TASK_RENEW);
+            return(creep.memory.task !== c.TASK_RENEW);
         });
 
         if(creeps.length > 0) {
